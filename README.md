@@ -43,7 +43,7 @@ This pipeline allows the system to detect individual nuts, maintain their identi
 
 The conveyor and metallic nuts have different visual characteristics, allowing the objects to be isolated using HSV-based thresholding.
 
-HSV color space provides more practical control over color-based segmentation than directly thresholding RGB values.
+HSV color space provides practical control over color-based segmentation compared with directly thresholding RGB values.
 
 ### Morphological Processing
 
@@ -82,7 +82,7 @@ These markers are passed to the **Watershed algorithm**, which separates connect
 
 After detecting the nuts in each frame, the system tracks them across the video.
 
-Instead of matching detections using only the nearest current position, the tracker uses previous motion information to predict the expected next position of each object.
+Instead of matching detections using only the nearest current position, the tracker uses previous motion information to estimate the expected next position of each object.
 
 A cost matrix is generated between predicted track positions and current detections.
 
@@ -98,7 +98,7 @@ A virtual counting line is defined across the conveyor.
 
 Each tracked nut is counted only when its trajectory crosses this line in the expected direction.
 
-The tracking IDs prevent the same nut from being counted multiple times while it remains visible in the video.
+The tracking IDs help prevent the same nut from being counted multiple times while it remains visible in the video.
 
 ---
 
@@ -114,21 +114,59 @@ The final crossing condition checks for movement from below the counting line to
 old_y > LINE_Y and new_y <= LINE_Y
 ```
 
-This correction highlights an important part of the project development process: validating assumptions against the real video rather than relying only on the initial implementation.
+This correction reflects an important part of the project development process: validating implementation assumptions against the actual video behavior.
 
 ---
 
-## Final Result
+## Project Results
 
-The final pipeline detected, separated, tracked, and counted the nuts throughout the validation video.
+The final pipeline successfully performs:
 
-The system produced a final count of:
+- Nut detection
+- Separation of touching nuts
+- Multi-object tracking
+- Line-crossing detection
+- Unique object counting
 
-**219 nuts**
+### Multiple Object Tracking
 
-This value represents the output of the implemented counting pipeline.
+![Multiple Object Tracking](assets/nut_tracking_multiple_objects.jpg)
 
-A manually verified ground-truth count is required before reporting a formal counting accuracy. Therefore, the project does not claim an accuracy percentage based only on the algorithm's final count.
+### Line Crossing and Counting
+
+![Line Crossing and Counting](assets/nut_tracking_line_crossing.jpg)
+
+### Final Count
+
+![Final Count](assets/nut_final_count_219.jpg)
+
+The final system output for the validation video was:
+
+## **219 nuts**
+
+This number represents the output of the implemented counting pipeline.
+
+A manually verified ground-truth count would still be required before reporting a formal accuracy percentage.
+
+---
+
+## Validation Video
+
+The repository includes the processed validation video showing the detection, tracking, and counting pipeline in operation.
+
+**Validation Video:**  
+[`videos/nut_counting_validation.mp4`](videos/nut_counting_validation.mp4)
+
+---
+
+## Jupyter Notebook
+
+The complete project implementation is available in the included Jupyter Notebook.
+
+**Notebook:**  
+[`notebook/Nut_Counting_Project_FINAL.ipynb`](notebook/Nut_Counting_Project_FINAL.ipynb)
+
+The notebook contains the full image-processing pipeline, detection logic, tracking system, Hungarian assignment, counting logic, and validation process.
 
 ---
 
@@ -138,6 +176,8 @@ A manually verified ground-truth count is required before reporting a formal cou
 - OpenCV
 - NumPy
 - SciPy
+- Matplotlib
+- Jupyter Notebook
 - Classical Computer Vision
 - HSV Color Segmentation
 - Morphological Image Processing
@@ -155,7 +195,7 @@ A manually verified ground-truth count is required before reporting a formal cou
 | Challenge | Solution |
 |---|---|
 | Separating metallic nuts from the conveyor | HSV-based segmentation |
-| Small mask noise | Morphological processing |
+| Small segmentation noise | Morphological processing |
 | Holes inside the nuts | Hole filling |
 | Touching nuts detected as one object | Distance Transform + Watershed |
 | Maintaining object identity | Motion-aware tracking |
@@ -170,29 +210,49 @@ A manually verified ground-truth count is required before reporting a formal cou
 ```text
 nut-detection-tracking-counting/
 │
+├── assets/
+│   ├── nut_final_count_219.jpg
+│   ├── nut_tracking_line_crossing.jpg
+│   └── nut_tracking_multiple_objects.jpg
+│
 ├── notebook/
 │   └── Nut_Counting_Project_FINAL.ipynb
 │
 ├── videos/
 │   └── nut_counting_validation.mp4
 │
-├── assets/
-│   └── Project preview images
-│
+├── .gitignore
 ├── README.md
-├── requirements.txt
-└── .gitignore
+└── requirements.txt
 ```
 
 ---
 
-## Validation
+## Installation
 
-The project includes an annotated validation video showing the final detection, tracking, and counting pipeline.
+Clone the repository:
 
-The displayed count represents the number of tracked nuts that satisfy the defined line-crossing condition.
+```bash
+git clone https://github.com/zyadkhalafamen/nut-detection-tracking-counting.git
+```
 
-For a complete quantitative evaluation, the predicted count should be compared against a manually verified ground-truth count.
+Navigate to the project directory:
+
+```bash
+cd nut-detection-tracking-counting
+```
+
+Install the required Python packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+Then open the notebook:
+
+```bash
+jupyter notebook
+```
 
 ---
 
@@ -200,4 +260,4 @@ For a complete quantitative evaluation, the predicted count should be compared a
 
 This project demonstrates the implementation of an end-to-end **classical computer vision pipeline** for an industrial conveyor application.
 
-It focuses on practical challenges such as object segmentation, separation of touching objects, temporal tracking, data association, counting logic, and iterative validation without relying on a pretrained deep learning detector.
+It focuses on practical engineering challenges including object segmentation, separation of touching objects, temporal tracking, data association, counting logic, and iterative validation without relying on a pretrained deep learning object detector.
