@@ -1,5 +1,12 @@
 # Nut Detection, Tracking & Counting System
 
+![Python](https://img.shields.io/badge/Language-Python-3776AB?style=flat-square)
+![Computer Vision](https://img.shields.io/badge/Computer%20Vision-OpenCV-5C3EE8?style=flat-square)
+![Approach](https://img.shields.io/badge/Approach-Classical%20Computer%20Vision-orange?style=flat-square)
+![Segmentation](https://img.shields.io/badge/Segmentation-Watershed-blueviolet?style=flat-square)
+![Tracking](https://img.shields.io/badge/Data%20Association-Hungarian%20Algorithm-blue?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen?style=flat-square)
+
 A classical computer vision system for detecting, separating, tracking, and counting metallic nuts moving on a conveyor belt.
 
 The project was developed using **Python** and **OpenCV** without relying on deep learning object detectors. It combines image segmentation, Watershed-based object separation, motion-aware tracking, Hungarian assignment, and line-crossing logic to build a complete video-processing pipeline.
